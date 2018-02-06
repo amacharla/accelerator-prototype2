@@ -3,16 +3,18 @@
 
 import string
 import random
+from app_server.v1.views import app_views
 from urllib.parse import urlparse
 from datetime import datetime
-from flask import Flask, request, redirect, render_template, abort, jsonify
+from flask import Flask, request, redirect, render_template, abort, jsonify, Blueprint
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 
 #===========APP CONFIG==============
 
 # Flask / CORS / Jinga setup
-app = Flask(__name__, template_folder='static')
+app = Flask(__name__, template_folder='../../static')
+app.register_blueprint(app_views)
 app.url_map.strict_slashes = False
 CORS(app, resources={r"/*": {"origins": "*"}})
 
@@ -91,4 +93,4 @@ def uri_handle(url):
 
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=80)
+    app.run(host='0.0.0.0', port=80, debug=True)
